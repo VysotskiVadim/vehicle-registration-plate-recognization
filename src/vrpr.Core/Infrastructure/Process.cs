@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Practices.Unity;
 
 namespace vrpr.Core.Infrastructure
 {
     public class Process<T>
     {
-        protected Result<T> Obj { get; set; }
+        protected IUnityContainer Container { get; }
 
-        public Process(Result<T> result)
+        public Process(IUnityContainer unityContainer)
         {
-            Obj = result;
-        } 
+            Container = unityContainer;
+        }
+
+        protected Result<T> Obj { get; set; }
 
         public Process<TOut> Then<TOut>(IProcessor<T, TOut> processor)
         {
@@ -18,11 +21,11 @@ namespace vrpr.Core.Infrastructure
             if (Obj.Success)
             {
                 var processingResult = processor.Process(Obj.Value);
-                result = new Process<TOut>(processingResult);
+                result = Container.Resolve<Process<TOut>>().Use(processingResult);
             }
             else
             {
-                result = new Process<TOut>(Result.Fail<TOut>(Obj.Error));
+                result = Container.Resolve<Process<TOut>>().Use(Result.Fail<TOut>(Obj.Error));
             }
 
             return result;
@@ -36,16 +39,16 @@ namespace vrpr.Core.Infrastructure
                 var processingResult = processor.Process(Obj.Value);
                 if (processingResult.Success)
                 {
-                    result = new MultiItemProcess<TItem>(Result.Ok((IEnumerable<TItem>) processingResult.Value));
+                    result = (MultiItemProcess<TItem>) new MultiItemProcess<TItem>(Container).Use(Result.Ok((IEnumerable<TItem>) processingResult.Value));
                 }
                 else
                 {
-                    result = new MultiItemProcess<TItem>(Result.Fail<IEnumerable<TItem>>(processingResult.Error));
+                    result = (MultiItemProcess<TItem>)new MultiItemProcess<TItem>(Container).Use(Result.Fail<IEnumerable<TItem>>(processingResult.Error));
                 }
             }
             else
             {
-                result = new MultiItemProcess<TItem>(Result.Fail<IEnumerable<TItem>>(Obj.Error));
+                result = (MultiItemProcess<TItem>)new MultiItemProcess<TItem>(Container).Use(Result.Fail<IEnumerable<TItem>>(Obj.Error));
             }
 
             return result;
@@ -55,11 +58,23 @@ namespace vrpr.Core.Infrastructure
         {
             return Obj;
         }
+
+        public Process<T> Use(T obj)
+        {
+            Obj = Result<T>.Ok(obj);
+            return this;
+        }
+
+        public Process<T> Use(Result<T> obj)
+        {
+            Obj = obj;
+            return this;
+        }
     }
 
     public class MultiItemProcess<T> : Process<IEnumerable<T>>
     {
-        public MultiItemProcess(Result<IEnumerable<T>> result) : base(result)
+        public MultiItemProcess(IUnityContainer unityContainer) : base(unityContainer)
         {
         }
 
@@ -71,27 +86,19 @@ namespace vrpr.Core.Infrastructure
                 var results = Obj.Value.Select(processor.Process).Where(r => r.Success).Select(r => r.Value).ToList();
                 if (results.Any())
                 {
-                    result = new MultiItemProcess<TOut>(Result.Ok<IEnumerable<TOut>>(results));
+                    result = (MultiItemProcess<TOut>) new MultiItemProcess<TOut>(Container).Use(Result.Ok<IEnumerable<TOut>>(results));
                 }
                 else
                 {
-                    result = new MultiItemProcess<TOut>(Result.Fail<IEnumerable<TOut>>("No one processors return a Success result"));
+                    result = (MultiItemProcess<TOut>)new MultiItemProcess<TOut>(Container).Use(Result.Fail<IEnumerable<TOut>>("No one processors return a Success result"));
                 }
             }
             else
             {
-                result = new MultiItemProcess<TOut>(Result.Fail<IEnumerable<TOut>>(Obj.Error));
+                result = (MultiItemProcess<TOut>)new MultiItemProcess<TOut>(Container).Use(Result.Fail<IEnumerable<TOut>>(Obj.Error));
             }
 
             return result;
-        }
-    }
-
-    public static class ProcessHelper
-    {
-        public static Process<TOut> Process<TIn, TOut>(this TIn input, IProcessor<TIn, TOut> processor)
-        {
-            return new Process<TIn>(Result<TIn>.Ok(input)).Then(processor);
         }
     }
 }

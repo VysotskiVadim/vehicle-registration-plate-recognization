@@ -7,6 +7,7 @@ using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
+using Microsoft.Practices.Unity;
 using vrpr.Core.Infrastructure;
 using vrpr.DesktopCore.Processors;
 
@@ -53,7 +54,11 @@ namespace ConsoleApp
         private static void FindVehiclePlate(string fileName)
         {
             var image = CvInvoke.Imread(fileName, LoadImageType.AnyColor);
-            var numbers = image.Process(new MakeImageGrayProcessor())
+            var containder = new UnityContainer();
+            containder.RegisterInstance<IUnityContainer>(containder);
+            var numbers = containder.Resolve<Process<Mat>>()
+                .Use(image)
+                .Then(new MakeImageGrayProcessor())
                 .Then<IEnumerable<Mat>, Mat>(new DetectAndCropPlateNumberProcessor())
                 .ThenForEach(new TeseractOcrProcessor())
                 .GetResult();
