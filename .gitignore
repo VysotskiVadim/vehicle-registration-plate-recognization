@@ -251,5 +251,5 @@ paket-files/
 .idea/
 *.sln.iml
 
-!src/vrpr.DesktopCore/x86/liblept172.dll
-!src/vrpr.DesktopCore/x86/libtesseract304.dll
+!/src/vrpr.DesktopCore/x64/
+!/src/vrpr.DesktopCore/x86/
