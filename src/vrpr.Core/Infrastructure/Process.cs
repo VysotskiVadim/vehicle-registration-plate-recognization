@@ -15,11 +15,12 @@ namespace vrpr.Core.Infrastructure
 
         protected Result<T> Obj { get; set; }
 
-        public Process<TOut> Then<TOut>(IProcessor<T, TOut> processor)
+        public Process<TOut> Then<TProcessor, TOut>() where TProcessor: IProcessor<T, TOut>
         {
             Process<TOut> result;
             if (Obj.Success)
             {
+                var processor = Container.Resolve<TProcessor>();
                 var processingResult = processor.Process(Obj.Value);
                 result = Container.Resolve<Process<TOut>>().Use(processingResult);
             }
@@ -31,11 +32,12 @@ namespace vrpr.Core.Infrastructure
             return result;
         }
 
-        public MultiItemProcess<TItem> Then<TOut, TItem>(IProcessor<T, TOut> processor) where TOut : IEnumerable<TItem>
+        public MultiItemProcess<TItem> Then<TProcessor, TItem, TOut>() where TOut : IEnumerable<TItem> where TProcessor: IProcessor<T, TOut>
         {
             MultiItemProcess<TItem> result;
             if (Obj.Success)
             {
+                var processor = Container.Resolve<TProcessor>();
                 var processingResult = processor.Process(Obj.Value);
                 if (processingResult.Success)
                 {
@@ -78,11 +80,12 @@ namespace vrpr.Core.Infrastructure
         {
         }
 
-        public MultiItemProcess<TOut> ThenForEach<TOut>(IProcessor<T, TOut> processor)
+        public MultiItemProcess<TOut> ThenForEach<TProcessor, TOut>() where TProcessor: IProcessor<T, TOut>
         {
             MultiItemProcess<TOut> result;
             if (Obj.Success)
             {
+                var processor = Container.Resolve<TProcessor>();
                 var results = Obj.Value.Select(processor.Process).Where(r => r.Success).Select(r => r.Value).ToList();
                 if (results.Any())
                 {

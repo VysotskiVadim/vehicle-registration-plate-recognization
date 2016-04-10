@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
-using Emgu.CV.Util;
 using Microsoft.Practices.Unity;
 using vrpr.Core.Infrastructure;
 using vrpr.DesktopCore.Processors;
@@ -58,9 +55,9 @@ namespace ConsoleApp
             containder.RegisterInstance<IUnityContainer>(containder);
             var numbers = containder.Resolve<Process<Mat>>()
                 .Use(image)
-                .Then(new MakeImageGrayProcessor())
-                .Then<IEnumerable<Mat>, Mat>(new DetectAndCropPlateNumberProcessor())
-                .ThenForEach(new TeseractOcrProcessor())
+                .Then<MakeImageGrayProcessor, Mat>()
+                .Then<DetectAndCropPlateNumberProcessor, Mat, IEnumerable<Mat>>()
+                .ThenForEach<TeseractOcrProcessor, string>()
                 .GetResult();
 
             if (numbers.Success && numbers.Value.Any())
