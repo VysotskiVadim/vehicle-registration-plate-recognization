@@ -68,9 +68,9 @@ namespace vrpr.Core
             return new Result<T>(value);
         }
 
-        public static Result<T> Fail(string message)
+        public static Result<T> Fail(string error)
         {
-            return new Result<T>(message);
+            return new Result<T>(error);
         } 
     }
 }

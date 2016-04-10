@@ -41,7 +41,9 @@
     <Content Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IProcessor.cs" />
     <Compile Include="Maybe.cs" />
+    <Compile Include="Process.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
