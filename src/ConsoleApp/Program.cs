@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Microsoft.Practices.Unity;
-using vrpr.Core.Infrastructure;
-using vrpr.DesktopCore.Processors;
+using vrpr.DesktopCore;
 
 namespace ConsoleApp
 {
@@ -50,16 +48,14 @@ namespace ConsoleApp
 
         private static void FindVehiclePlate(string fileName)
         {
-            var image = CvInvoke.Imread(fileName, LoadImageType.AnyColor);
             var containder = new UnityContainer();
             containder.RegisterInstance<IUnityContainer>(containder);
-            var numbers = containder.Resolve<Process<Mat>>()
-                .Use(image)
-                .Then<MakeImageGrayProcessor, Mat>()
-                .Then<DetectAndCropPlateNumberProcessor, Mat, IEnumerable<Mat>>()
-                .ThenForEach<TeseractOcrProcessor, string>()
-                .GetResult();
+            new Registry().Register(containder);
 
+            var registrationPlateRecognizer = containder.Resolve<IVehicleRegistrationPlateRecognizer>();
+
+            var image = CvInvoke.Imread(fileName, LoadImageType.AnyColor);
+            var numbers = registrationPlateRecognizer.Process(image);
             if (numbers.Success && numbers.Value.Any())
             {
                 var newImageName = Guid.NewGuid() + ".png";
