@@ -9,7 +9,7 @@
             Obj = result;
         } 
 
-        public Process<TOut> Then<TOut>(IProcessor<T, Result<TOut>> processor)
+        public Process<TOut> Then<TOut>(IProcessor<T, TOut> processor)
         {
             Process<TOut> result;
             if (Obj.Success)
@@ -30,7 +30,7 @@
 
     public static class ProcessHelper
     {
-        public static Process<TOut> Process<TIn, TOut>(this TIn input, IProcessor<TIn, Result<TOut>> processor)
+        public static Process<TOut> Process<TIn, TOut>(this TIn input, IProcessor<TIn, TOut> processor)
         {
             return new Process<TIn>(Result<TIn>.Ok(input)).Then(processor);
         }
