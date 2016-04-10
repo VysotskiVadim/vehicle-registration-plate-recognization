@@ -1,7 +1,7 @@
 ﻿using System;
 using NullGuard;
 
-namespace vrpr.Core
+namespace vrpr.Core.Infrastructure
 {
     public struct Maybe<T>
     {

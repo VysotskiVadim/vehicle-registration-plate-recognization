@@ -250,3 +250,6 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+!src/vrpr.DesktopCore/x86/liblept172.dll
+!src/vrpr.DesktopCore/x86/libtesseract304.dll

@@ -1,4 +1,4 @@
-﻿namespace vrpr.Core
+﻿namespace vrpr.Core.Infrastructure
 {
     public interface IProcessor<in TIn, out TOut> where TOut: Result
     {

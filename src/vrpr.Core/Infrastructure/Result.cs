@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace vrpr.Core
+namespace vrpr.Core.Infrastructure
 {
     public class Result
     {

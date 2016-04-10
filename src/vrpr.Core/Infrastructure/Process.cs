@@ -1,4 +1,4 @@
-﻿namespace vrpr.Core
+﻿namespace vrpr.Core.Infrastructure
 {
     public class Process<T>
     {
