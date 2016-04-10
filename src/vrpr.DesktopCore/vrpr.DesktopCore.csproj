@@ -100,8 +100,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Processors\DetectAndCropPlateNumberProcessor.cs" />
     <Compile Include="Processors\MakeImageGrayProcessor.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Processors\TeseractOcrProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -27,6 +27,34 @@ namespace vrpr.Core.Infrastructure
 
             return result;
         }
+
+        public MultiItemProcess<TItem> Then<TOut, TItem>(IProcessor<T, TOut> processor) where TOut : IEnumerable<TItem>
+        {
+            MultiItemProcess<TItem> result;
+            if (Obj.Success)
+            {
+                var processingResult = processor.Process(Obj.Value);
+                if (processingResult.Success)
+                {
+                    result = new MultiItemProcess<TItem>(Result.Ok((IEnumerable<TItem>) processingResult.Value));
+                }
+                else
+                {
+                    result = new MultiItemProcess<TItem>(Result.Fail<IEnumerable<TItem>>(processingResult.Error));
+                }
+            }
+            else
+            {
+                result = new MultiItemProcess<TItem>(Result.Fail<IEnumerable<TItem>>(Obj.Error));
+            }
+
+            return result;
+        }
+
+        public Result<T> GetResult()
+        {
+            return Obj;
+        }
     }
 
     public class MultiItemProcess<T> : Process<IEnumerable<T>>
