@@ -56,15 +56,12 @@ namespace ConsoleApp
 
             var imageData = File.ReadAllBytes(fileName);
             
-            var image = new Mat();
-            CvInvoke.Imdecode(imageData, LoadImageType.AnyColor, image);
-
-            var numbers = registrationPlateRecognizer.Process(image);
+            var numbers = registrationPlateRecognizer.Process(imageData);
             if (numbers.Success && numbers.Value.Any())
             {
-                var newImageName = Guid.NewGuid() + ".png";
-                image.Save(Path.Combine(@"d:\testimage\done\", newImageName));
-                Console.WriteLine($"Number was found: {string.Join(" ,",  numbers.Value)}, see result in {newImageName}");
+                //var newImageName = Guid.NewGuid() + ".png";
+                //image.Save(Path.Combine(@"d:\testimage\done\", newImageName));
+                Console.WriteLine($"Number was found: {string.Join(" ,",  numbers.Value)}");
             }
             else
             {

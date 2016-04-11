@@ -119,6 +119,7 @@
     <Compile Include="IVehicleRegistrationPlateRecognizer.cs" />
     <Compile Include="Processors\DetectAndCropPlateNumberProcessor.cs" />
     <Compile Include="Processors\MakeImageGrayProcessor.cs" />
+    <Compile Include="Processors\ReadImageFromBytesProcessor.cs" />
     <Compile Include="Processors\TeseractOcrProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registry.cs" />
