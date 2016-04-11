@@ -54,7 +54,11 @@ namespace ConsoleApp
 
             var registrationPlateRecognizer = containder.Resolve<IVehicleRegistrationPlateRecognizer>();
 
-            var image = CvInvoke.Imread(fileName, LoadImageType.AnyColor);
+            var imageData = File.ReadAllBytes(fileName);
+            
+            var image = new Mat();
+            CvInvoke.Imdecode(imageData, LoadImageType.AnyColor, image);
+
             var numbers = registrationPlateRecognizer.Process(image);
             if (numbers.Success && numbers.Value.Any())
             {
