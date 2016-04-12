@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Practices.Unity;
 using Nancy;
 using vrpr.DesktopCore;
 
@@ -8,12 +9,16 @@ namespace vrpr.WebUi
 {
     public class MainModule : NancyModule
     {
-        public MainModule(Func<IVehicleRegistrationPlateRecognizer> recognizerFactory)
+        public MainModule()
         {
             Get["/"] = p => View["selectFilesForm.html"];
             Post["/"] = p =>
             {
-                var recognizer = recognizerFactory.Invoke();
+                var existingContainer = new UnityContainer();
+                existingContainer.RegisterInstance<IUnityContainer>(existingContainer);
+                existingContainer.RegisterType<IVehicleRegistrationPlateRecognizer, VehicleRegistrationPlateRecognizer>();
+
+                var recognizer = existingContainer.Resolve<IVehicleRegistrationPlateRecognizer>();
                 var numbers = new List<string>();
                 foreach (var file in Request.Files)
                 {
