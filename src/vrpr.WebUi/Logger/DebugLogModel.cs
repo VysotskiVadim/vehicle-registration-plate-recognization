@@ -6,6 +6,10 @@
 
         public string Content { get; set; }
 
+        public bool IsImage => Type == LogType.Base64Image;
+
+        public bool IsString => Type == LogType.String;
+
         public enum LogType
         {
             String, Base64Image

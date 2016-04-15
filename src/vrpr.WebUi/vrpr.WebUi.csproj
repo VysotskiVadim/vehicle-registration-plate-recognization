@@ -138,18 +138,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Log\DebugLogModel.cs" />
-    <Compile Include="Log\IDebugLogProvier.cs" />
+    <Compile Include="Logger\DebugLogModel.cs" />
+    <Compile Include="Logger\IDebugLogProvier.cs" />
+    <Compile Include="Logger\WebDebugLogBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainModule.cs" />
-    <Compile Include="Log\WebDebugLogBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="log.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="logItem.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="selectFilesForm.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -164,9 +170,7 @@
       <Name>vrpr.DesktopCore</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="views\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

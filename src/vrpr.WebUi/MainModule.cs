@@ -37,7 +37,10 @@ namespace vrpr.WebUi
                         }
                     }
                 }
-                return string.Join(", ", numbers);
+
+                var logProvider = existingContainer.Resolve<IDebugLogProvier>();
+                var logs = logProvider.GetLog();
+                return View["log.html", new { Logs = logs }];
             };
         }
     }

@@ -1,0 +1,8 @@
+﻿<div>
+    @If.IsString
+        @Model.Content
+    @EndIf
+    @If.IsImage
+        <img src='data:image/png;base64,@Model.Content'/>
+    @EndIf
+</div>
