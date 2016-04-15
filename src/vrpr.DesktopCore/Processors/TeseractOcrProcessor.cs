@@ -3,11 +3,19 @@ using Emgu.CV;
 using Emgu.CV.Util;
 using Tesseract;
 using vrpr.Core.Infrastructure;
+using vrpr.DesktopCore.DebugLog;
 
 namespace vrpr.DesktopCore.Processors
 {
     public class TeseractOcrProcessor : IProcessor<Mat, string>
     {
+        private readonly IDebugLogger _debugLogger;
+
+        public TeseractOcrProcessor(IDebugLogger debugLogger)
+        {
+            _debugLogger = debugLogger;
+        }
+
         public Result<string> Process(Mat input)
         {
             try
@@ -21,6 +29,9 @@ namespace vrpr.DesktopCore.Processors
                         using (var page = engine.Process(img))
                         {
                             var text = page.GetText();
+
+                            _debugLogger.Log(debugLogBuilder => debugLogBuilder.AddMessage($"found text {text}"));
+
                             return Result.Ok(text);
                         }
                     }

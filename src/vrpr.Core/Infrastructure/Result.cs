@@ -68,9 +68,9 @@ namespace vrpr.Core.Infrastructure
             return new Result<T>(value);
         }
 
-        public static Result<T> Fail(string error)
+        public new static Result<T> Fail(string error)
         {
             return new Result<T>(error);
-        } 
+        }
     }
 }

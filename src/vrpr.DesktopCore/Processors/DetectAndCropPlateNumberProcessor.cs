@@ -30,7 +30,7 @@ namespace vrpr.DesktopCore.Processors
 
             _debugLogger.Log(debugLogBuilder =>
             {
-                debugLogBuilder.AddMessage($"Haarcascade found {rectangles.Length}");
+                debugLogBuilder.AddMessage($"Haarcascade return {rectangles.Length} results");
                 var inputCoppy = input.Clone();
                 rectangles.ForEach(r => CvInvoke.Rectangle(inputCoppy, r, new MCvScalar(255, 0, 0), 3, LineType.FourConnected));
                 debugLogBuilder.AddImage(inputCoppy);
