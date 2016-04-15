@@ -4,6 +4,8 @@ using System.IO;
 using Microsoft.Practices.Unity;
 using Nancy;
 using vrpr.DesktopCore;
+using vrpr.DesktopCore.DebugLog;
+using vrpr.WebUi.Logger;
 
 namespace vrpr.WebUi
 {
@@ -17,6 +19,8 @@ namespace vrpr.WebUi
                 var existingContainer = new UnityContainer();
                 existingContainer.RegisterInstance<IUnityContainer>(existingContainer);
                 existingContainer.RegisterType<IVehicleRegistrationPlateRecognizer, VehicleRegistrationPlateRecognizer>();
+                existingContainer.RegisterType<IDebugLogBuilder, WebDebugLogBuilder>(new ContainerControlledLifetimeManager());
+                existingContainer.RegisterType<IDebugLogProvier, WebDebugLogBuilder>(new ContainerControlledLifetimeManager());
 
                 var recognizer = existingContainer.Resolve<IVehicleRegistrationPlateRecognizer>();
                 var numbers = new List<string>();

@@ -138,9 +138,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Log\DebugLogModel.cs" />
+    <Compile Include="Log\IDebugLogProvier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainModule.cs" />
+    <Compile Include="Log\WebDebugLogBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
