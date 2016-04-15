@@ -121,6 +121,7 @@
     <Compile Include="DebugLog\IDebugLogger.cs" />
     <Compile Include="IVehicleRegistrationPlateRecognizer.cs" />
     <Compile Include="Processors\DetectAndCropPlateNumberProcessor.cs" />
+    <Compile Include="Processors\LogCurrentImageProcessor.cs" />
     <Compile Include="Processors\MakeImageGrayProcessor.cs" />
     <Compile Include="Processors\ReadImageFromBytesProcessor.cs" />
     <Compile Include="Processors\TeseractOcrProcessor.cs" />

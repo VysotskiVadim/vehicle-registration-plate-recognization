@@ -22,6 +22,7 @@ namespace vrpr.DesktopCore
                 .Then<ReadImageFromBytesProcessor, Mat>()
                 .Then<MakeImageGrayProcessor, Mat>()
                 .Then<DetectAndCropPlateNumberProcessor, Mat, IEnumerable<Mat>>()
+                .ThenForEach<LogCurrentImageProcessor, Mat>()
                 .ThenForEach<TeseractOcrProcessor, string>()
                 .GetResult();
         }
