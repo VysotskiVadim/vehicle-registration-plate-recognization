@@ -11,11 +11,11 @@ namespace vrpr.DesktopCore.Processors
 {
     public class DetectAndCropPlateNumberProcessor : IProcessor<Mat, IEnumerable<Mat>>
     {
-        private readonly IDebugLogBuilder _debugLogBuilder;
+        private readonly IDebugLogger _debugLogger;
 
-        public DetectAndCropPlateNumberProcessor(IDebugLogBuilder debugLogBuilder)
+        public DetectAndCropPlateNumberProcessor(IDebugLogger debugLogger)
         {
-            _debugLogBuilder = debugLogBuilder;
+            _debugLogger = debugLogger;
         }
 
         public Result<IEnumerable<Mat>> Process(Mat input)
@@ -28,10 +28,13 @@ namespace vrpr.DesktopCore.Processors
             var numberCascade = new CascadeClassifier("haarcascade_russian_plate_number.xml");
             var rectangles = numberCascade.DetectMultiScale(input);
 
-            _debugLogBuilder.AddMessage($"Haarcascade found {rectangles.Length}");
-            var inputCoppy = input.Clone();
-            rectangles.ForEach(r => CvInvoke.Rectangle(inputCoppy, r, new MCvScalar(255, 0, 0), 3, LineType.FourConnected));
-            _debugLogBuilder.AddImage(inputCoppy);
+            _debugLogger.Log(debugLogBuilder =>
+            {
+                debugLogBuilder.AddMessage($"Haarcascade found {rectangles.Length}");
+                var inputCoppy = input.Clone();
+                rectangles.ForEach(r => CvInvoke.Rectangle(inputCoppy, r, new MCvScalar(255, 0, 0), 3, LineType.FourConnected));
+                debugLogBuilder.AddImage(inputCoppy);
+            });
 
             return rectangles.Select(rectangle => new Mat(input, rectangle)).ToList();
         }

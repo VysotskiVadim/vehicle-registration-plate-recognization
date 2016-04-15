@@ -116,7 +116,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DebugLog\DebugLogger.cs" />
     <Compile Include="DebugLog\IDebugLogBuilder.cs" />
+    <Compile Include="DebugLog\IDebugLogger.cs" />
     <Compile Include="IVehicleRegistrationPlateRecognizer.cs" />
     <Compile Include="Processors\DetectAndCropPlateNumberProcessor.cs" />
     <Compile Include="Processors\MakeImageGrayProcessor.cs" />

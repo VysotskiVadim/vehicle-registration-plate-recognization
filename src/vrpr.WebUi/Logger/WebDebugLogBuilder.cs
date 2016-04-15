@@ -6,6 +6,7 @@ using vrpr.DesktopCore.DebugLog;
 
 namespace vrpr.WebUi.Logger
 {
+#pragma warning disable 618
     public class WebDebugLogBuilder : IDebugLogBuilder, IDebugLogProvier
     {
         private List<DebugLogModel> _logs = new List<DebugLogModel>();
@@ -29,4 +30,5 @@ namespace vrpr.WebUi.Logger
             return _logs.AsReadOnly();
         } 
     }
+#pragma warning restore 618
 }

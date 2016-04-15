@@ -19,8 +19,11 @@ namespace vrpr.WebUi
                 var existingContainer = new UnityContainer();
                 existingContainer.RegisterInstance<IUnityContainer>(existingContainer);
                 existingContainer.RegisterType<IVehicleRegistrationPlateRecognizer, VehicleRegistrationPlateRecognizer>();
+#pragma warning disable 618
                 existingContainer.RegisterType<IDebugLogBuilder, WebDebugLogBuilder>(new ContainerControlledLifetimeManager());
+#pragma warning restore 618
                 existingContainer.RegisterType<IDebugLogProvier, WebDebugLogBuilder>(new ContainerControlledLifetimeManager());
+                existingContainer.RegisterType<IDebugLogger, DebugLogger>(new ContainerControlledLifetimeManager());
 
                 var recognizer = existingContainer.Resolve<IVehicleRegistrationPlateRecognizer>();
                 var numbers = new List<string>();
