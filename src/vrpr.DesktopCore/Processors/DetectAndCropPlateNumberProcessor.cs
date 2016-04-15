@@ -3,7 +3,7 @@ using System.Linq;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
-using Microsoft.Practices.ObjectBuilder2;
+using vrpr.Core;
 using vrpr.Core.Infrastructure;
 using vrpr.DesktopCore.DebugLog;
 

@@ -50,7 +50,8 @@ namespace ConsoleApp
         {
             var containder = new UnityContainer();
             containder.RegisterInstance<IUnityContainer>(containder);
-            new Registry().Register(containder);
+            containder.RegisterType<IVehicleRegistrationPlateRecognizer, VehicleRegistrationPlateRecognizer>();
+            containder.RegisterInstance<IUnityContainer>(containder);
 
             var registrationPlateRecognizer = containder.Resolve<IVehicleRegistrationPlateRecognizer>();
 

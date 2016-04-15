@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Practices.Unity;
 using Nancy;
+using vrpr.Core;
 using vrpr.DesktopCore;
 using vrpr.DesktopCore.DebugLog;
 using vrpr.WebUi.Logger;
@@ -18,6 +19,7 @@ namespace vrpr.WebUi
             {
                 var existingContainer = new UnityContainer();
                 existingContainer.RegisterInstance<IUnityContainer>(existingContainer);
+                existingContainer.RegisterType<IProcessorFactory, ProcessorFactory>();
                 existingContainer.RegisterType<IVehicleRegistrationPlateRecognizer, VehicleRegistrationPlateRecognizer>();
 #pragma warning disable 618
                 existingContainer.RegisterType<IDebugLogBuilder, WebDebugLogBuilder>(new ContainerControlledLifetimeManager());

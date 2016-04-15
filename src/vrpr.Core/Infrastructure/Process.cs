@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Practices.Unity;
 
 namespace vrpr.Core.Infrastructure
 {
     public class Process<T>
     {
-        protected IUnityContainer Container { get; }
+        public IProcessorFactory ProcessorFactory { get; }
 
-        public Process(IUnityContainer unityContainer)
+        public Process(IProcessorFactory processorFactory)
         {
-            Container = unityContainer;
+            ProcessorFactory = processorFactory;
         }
 
         protected Result<T> Obj { get; set; }
@@ -20,13 +19,13 @@ namespace vrpr.Core.Infrastructure
             Process<TOut> result;
             if (Obj.Success)
             {
-                var processor = Container.Resolve<TProcessor>();
+                var processor = ProcessorFactory.GetProcessor<TProcessor>();
                 var processingResult = processor.Process(Obj.Value);
-                result = Container.Resolve<Process<TOut>>().Use(processingResult);
+                result = new Process<TOut>(ProcessorFactory).Use(processingResult);
             }
             else
             {
-                result = Container.Resolve<Process<TOut>>().Use(Result.Fail<TOut>(Obj.Error));
+                result = new Process<TOut>(ProcessorFactory).Use(Result.Fail<TOut>(Obj.Error));
             }
 
             return result;
@@ -37,20 +36,20 @@ namespace vrpr.Core.Infrastructure
             MultiItemProcess<TItem> result;
             if (Obj.Success)
             {
-                var processor = Container.Resolve<TProcessor>();
+                var processor = ProcessorFactory.GetProcessor<TProcessor>();
                 var processingResult = processor.Process(Obj.Value);
                 if (processingResult.Success)
                 {
-                    result = (MultiItemProcess<TItem>) new MultiItemProcess<TItem>(Container).Use(Result.Ok((IEnumerable<TItem>) processingResult.Value));
+                    result = (MultiItemProcess<TItem>) new MultiItemProcess<TItem>(ProcessorFactory).Use(Result.Ok((IEnumerable<TItem>) processingResult.Value));
                 }
                 else
                 {
-                    result = (MultiItemProcess<TItem>)new MultiItemProcess<TItem>(Container).Use(Result.Fail<IEnumerable<TItem>>(processingResult.Error));
+                    result = (MultiItemProcess<TItem>)new MultiItemProcess<TItem>(ProcessorFactory).Use(Result.Fail<IEnumerable<TItem>>(processingResult.Error));
                 }
             }
             else
             {
-                result = (MultiItemProcess<TItem>)new MultiItemProcess<TItem>(Container).Use(Result.Fail<IEnumerable<TItem>>(Obj.Error));
+                result = (MultiItemProcess<TItem>)new MultiItemProcess<TItem>(ProcessorFactory).Use(Result.Fail<IEnumerable<TItem>>(Obj.Error));
             }
 
             return result;
@@ -76,7 +75,7 @@ namespace vrpr.Core.Infrastructure
 
     public class MultiItemProcess<T> : Process<IEnumerable<T>>
     {
-        public MultiItemProcess(IUnityContainer unityContainer) : base(unityContainer)
+        public MultiItemProcess(IProcessorFactory processorFactory) : base(processorFactory)
         {
         }
 
@@ -85,20 +84,20 @@ namespace vrpr.Core.Infrastructure
             MultiItemProcess<TOut> result;
             if (Obj.Success)
             {
-                var processor = Container.Resolve<TProcessor>();
+                var processor = ProcessorFactory.GetProcessor<TProcessor>();
                 var results = Obj.Value.Select(processor.Process).Where(r => r.Success).Select(r => r.Value).ToList();
                 if (results.Any())
                 {
-                    result = (MultiItemProcess<TOut>) new MultiItemProcess<TOut>(Container).Use(Result.Ok<IEnumerable<TOut>>(results));
+                    result = (MultiItemProcess<TOut>) new MultiItemProcess<TOut>(ProcessorFactory).Use(Result.Ok<IEnumerable<TOut>>(results));
                 }
                 else
                 {
-                    result = (MultiItemProcess<TOut>)new MultiItemProcess<TOut>(Container).Use(Result.Fail<IEnumerable<TOut>>("No one processors return a Success result"));
+                    result = (MultiItemProcess<TOut>)new MultiItemProcess<TOut>(ProcessorFactory).Use(Result.Fail<IEnumerable<TOut>>("No one processors return a Success result"));
                 }
             }
             else
             {
-                result = (MultiItemProcess<TOut>)new MultiItemProcess<TOut>(Container).Use(Result.Fail<IEnumerable<TOut>>(Obj.Error));
+                result = (MultiItemProcess<TOut>)new MultiItemProcess<TOut>(ProcessorFactory).Use(Result.Fail<IEnumerable<TOut>>(Obj.Error));
             }
 
             return result;

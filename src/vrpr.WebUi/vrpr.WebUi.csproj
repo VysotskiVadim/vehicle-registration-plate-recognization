@@ -141,6 +141,7 @@
     <Compile Include="Logger\DebugLogModel.cs" />
     <Compile Include="Logger\IDebugLogProvier.cs" />
     <Compile Include="Logger\WebDebugLogBuilder.cs" />
+    <Compile Include="ProcessorFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainModule.cs" />
