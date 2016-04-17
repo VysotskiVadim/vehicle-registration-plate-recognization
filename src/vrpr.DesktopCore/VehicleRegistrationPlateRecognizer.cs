@@ -19,11 +19,14 @@ namespace vrpr.DesktopCore
         {
             return _processFactory.Invoke()
                 .Use(input)
-                .Then<ReadImageFromBytesProcessor, Mat>()
-                .Then<MakeImageGrayProcessor, Mat>()
-                .Then<DetectAndCropPlateNumberProcessor, Mat, IEnumerable<Mat>>()
-                .ThenForEach<LogCurrentImageProcessor, Mat>()
-                .ThenForEach<TeseractOcrProcessor, string>()
+                .Do<ReadImageFromBytesProcessor, Mat>()
+                .Do<MakeImageGrayProcessor, Mat>()
+                .Do<DetectAndCropPlateNumberProcessor, IEnumerable<Mat>>()
+                .ForEachItem(p => 
+                    p.Do<LogCurrentImageProcessor, Mat>()
+                    .Do<FindLettersProcessor, IEnumerable<Mat>>()
+                    .ForEachItem(ip => ip.Do<TeseractOcrProcessor, string>()))
+                .Do<StringAgregateProcessor, IEnumerable<string>>()
                 .GetResult();
         }
     }
