@@ -24,13 +24,14 @@ namespace vrpr.DesktopCore.Processors
                 CvInvoke.Imencode(".tiff", input, buff);
                 using (var engine = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default))
                 {
+                    engine.DefaultPageSegMode = PageSegMode.SingleChar;
                     using (var img = Pix.LoadTiffFromMemory(buff.ToArray()))
                     {
                         using (var page = engine.Process(img))
                         {
                             var text = page.GetText();
 
-                            _debugLogger.Log(debugLogBuilder => debugLogBuilder.AddMessage($"found text {text}"));
+                            _debugLogger.Log(debugLogBuilder => debugLogBuilder.AddMessage("Letter").AddImage(input).AddMessage($"has been recognized as: {text}"));
 
                             return Result.Ok(text);
                         }

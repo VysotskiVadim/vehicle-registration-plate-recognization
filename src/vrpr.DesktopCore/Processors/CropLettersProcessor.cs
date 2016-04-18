@@ -75,7 +75,7 @@ namespace vrpr.DesktopCore.Processors
                 var cropped = new Mat();
                 CvInvoke.GetRectSubPix(rotated, new Size((int)rectSize.Width, (int)rectSize.Height), rect.Center, cropped);
                 result.Add(cropped);
-                _debugLogger.Log(logBuilder => logBuilder.AddMessage("crop letter").AddImage(cropped));
+                //_debugLogger.Log(logBuilder => logBuilder.AddMessage("crop letter").AddImage(cropped));
             }
 
             
