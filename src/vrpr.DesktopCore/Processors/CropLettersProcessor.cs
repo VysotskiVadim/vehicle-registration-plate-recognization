@@ -31,31 +31,22 @@ namespace vrpr.DesktopCore.Processors
                 return Result.Fail<IEnumerable<Mat>>("Image hasn't been set for CropLettersProcessor");
             }
 
-            var minLetterHeight = (int)(_image.Height * 0.3);
-            var maxLetterHeight = (int)(_image.Height * 0.8);
-            var minLetterWidth = (int)(_image.Width*0.05);
-
-            var letterCountors = input.Where(countor =>
-            {
-                var countorHeight = countor.Max(point => point.Y) - countor.Min(point => point.Y);
-                var countorWidth = countor.Max(point => point.X) - countor.Min(point => point.X);
-                return countorHeight > minLetterHeight && countorHeight < maxLetterHeight && countorWidth > minLetterWidth;
-            }).AsParallel().WithDegreeOfParallelism(2).ToArray();
+            
 
             _debugLogger.Log(debugLogBuilder =>
             {
-                debugLogBuilder.AddMessage($"found letters {letterCountors.Length}");
+                debugLogBuilder.AddMessage($"found letters {input.Length}");
                 var inputWithSelectedLetters = _image.Clone();
-                for (int i = 0; i < letterCountors.Length; i++)
+                for (int i = 0; i < input.Length; i++)
                 {
-                    CvInvoke.DrawContours(inputWithSelectedLetters, new VectorOfVectorOfPoint(letterCountors), i, new MCvScalar(255, 255, 255));
+                    CvInvoke.DrawContours(inputWithSelectedLetters, new VectorOfVectorOfPoint(input), i, new MCvScalar(255, 255, 255));
                 }
                 debugLogBuilder.AddImage(inputWithSelectedLetters);
             });
 
             var imageToCrop = _image;
             List<Mat> result = new List<Mat>();
-            foreach (var letterCountor in letterCountors)
+            foreach (var letterCountor in input)
             {
                 var rect = CvInvoke.MinAreaRect(letterCountor.Select<Point, PointF>(p => p).ToArray());
                 float angle = rect.Angle;
