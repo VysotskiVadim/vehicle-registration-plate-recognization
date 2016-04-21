@@ -31,8 +31,6 @@ namespace vrpr.DesktopCore.Processors
                 return Result.Fail<IEnumerable<Mat>>("Image hasn't been set for CropLettersProcessor");
             }
 
-            
-
             _debugLogger.Log(debugLogBuilder =>
             {
                 debugLogBuilder.AddMessage($"found letters {input.Length}");
@@ -68,8 +66,6 @@ namespace vrpr.DesktopCore.Processors
                 result.Add(cropped);
                 //_debugLogger.Log(logBuilder => logBuilder.AddMessage("crop letter").AddImage(cropped));
             }
-
-            
 
             return Result.Ok(result.AsEnumerable());
         }

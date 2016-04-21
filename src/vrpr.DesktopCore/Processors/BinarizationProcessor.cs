@@ -16,10 +16,9 @@ namespace vrpr.DesktopCore.Processors
 
         public Result<Mat> Process(Mat input)
         {
-            var binarized = new Mat();
-            CvInvoke.Threshold(input, binarized, 0, 255, ThresholdType.Otsu);
-            _debugLogger.Log(logBuilder => logBuilder.AddMessage("Binarized image").AddImage(binarized));
-            return Result<Mat>.Ok(binarized);
+            CvInvoke.Threshold(input, input, 0, 255, ThresholdType.Otsu);
+            _debugLogger.Log(logBuilder => logBuilder.AddMessage("Binarized image").AddImage(input));
+            return Result<Mat>.Ok(input);
         }
     }
 }

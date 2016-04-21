@@ -8,9 +8,8 @@ namespace vrpr.DesktopCore.Processors
     {
         public Result<Mat> Process(Mat input)
         {
-            var grayImage = new Mat();
-            CvInvoke.CvtColor(input, grayImage, ColorConversion.Bgr2Gray);
-            return Result.Ok(grayImage);
+            CvInvoke.CvtColor(input, input, ColorConversion.Bgr2Gray);
+            return Result.Ok(input);
         }
     }
 }

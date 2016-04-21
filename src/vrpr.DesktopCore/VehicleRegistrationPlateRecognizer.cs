@@ -18,7 +18,7 @@ namespace vrpr.DesktopCore
 
         public Result<IEnumerable<string>> Process(byte[] input)
         {
-            Result<Mat> binarizedPlate;
+            Mat binarizedPlate = null;
 
             return _processFactory.Invoke()
                 .Use(input)
@@ -27,13 +27,13 @@ namespace vrpr.DesktopCore
                 .Do<DetectAndCropPlateNumberProcessor, IEnumerable<Mat>>()
                 .ForEachItem(p => 
                     p.Do<LogCurrentImageProcessor, Mat>()
-                    .SaveCurrentResultTo(out binarizedPlate)
+                    .SaveCurrentResultTo(r => binarizedPlate = r.Value.Clone())
                     .Do<BinarizationProcessor, Mat>()
                     .Do<GaussianBlurProcessor, Mat>()
                     .Do<CannyProcessor, Mat>()
                     .Do<FindCountourProcessor, Point[][]>()
-                    .Do<SelectLetterCountersFilter, Point[][]>(processor => processor.UseImage(binarizedPlate.Value))
-                    .Do<CropLettersProcessor, IEnumerable<Mat>>(processor => processor.UseImage(binarizedPlate.Value))
+                    .Do<SelectLetterCountersFilter, Point[][]>(processor => processor.UseImage(binarizedPlate))
+                    .Do<CropLettersProcessor, IEnumerable<Mat>>(processor => processor.UseImage(binarizedPlate))
                     .ForEachItem(ip => ip.Do<TeseractOcrProcessor, string>()))
                 .Do<StringAgregateProcessor, IEnumerable<string>>()
                 .GetResult();

@@ -15,10 +15,9 @@ namespace vrpr.DesktopCore.Processors
 
         public Result<Mat> Process(Mat input)
         {
-            var afterCanny = new Mat();
-            CvInvoke.Canny(input, afterCanny, 1, 3);
-            _debugLogger.Log(logBuilder => logBuilder.AddMessage("Canny result").AddImage(afterCanny));
-            return Result<Mat>.Ok(afterCanny);
+            CvInvoke.Canny(input, input, 100, 300, 3);
+            _debugLogger.Log(logBuilder => logBuilder.AddMessage("Canny result").AddImage(input));
+            return Result<Mat>.Ok(input);
         }
     }
 }

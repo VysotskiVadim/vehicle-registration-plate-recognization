@@ -16,11 +16,10 @@ namespace vrpr.DesktopCore.Processors
 
         public Result<Mat> Process(Mat input)
         {
-            var blured = new Mat();
             var level = 5;
-            CvInvoke.GaussianBlur(input, blured, new Size(level, level), 0);
-            _debugLogger.Log(logBuilder => logBuilder.AddMessage("Gaussian Blur").AddImage(blured));
-            return Result<Mat>.Ok(blured);
+            CvInvoke.GaussianBlur(input, input, new Size(level, level), 0);
+            _debugLogger.Log(logBuilder => logBuilder.AddMessage("Gaussian Blur").AddImage(input));
+            return Result<Mat>.Ok(input);
         }
     }
 }

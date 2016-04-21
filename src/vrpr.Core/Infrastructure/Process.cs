@@ -71,7 +71,13 @@ namespace vrpr.Core.Infrastructure
         {
             storage = this.GetResult();
             return this;
-        } 
+        }
+
+        public Process<T> SaveCurrentResultTo(Action<Result<T>> saveCurrentResultAction)
+        {
+            saveCurrentResultAction(this.GetResult());
+            return this;
+        }
     }
 
     public static class ProcessorHelper
