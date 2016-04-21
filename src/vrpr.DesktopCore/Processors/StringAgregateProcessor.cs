@@ -4,14 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vrpr.Core.Infrastructure;
+using vrpr.DesktopCore.DebugLog;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class StringAgregateProcessor : IProcessor<IEnumerable<IEnumerable<string>>, IEnumerable<string>>
+    public class StringAgregateProcessor : IProcessor<IEnumerable<IEnumerable<char>>, IEnumerable<string>>
     {
-        public Result<IEnumerable<string>> Process(IEnumerable<IEnumerable<string>> input)
+        private readonly IDebugLogger _debugLogger;
+
+        public StringAgregateProcessor(IDebugLogger debugLogger)
         {
-            return Result.Ok(input.Select(s => string.Concat(s)));
+            _debugLogger = debugLogger;
+        }
+
+        public Result<IEnumerable<string>> Process(IEnumerable<IEnumerable<char>> input)
+        {
+            return Result.Ok(input.Select(s =>
+            {
+                var result = string.Concat(s);
+                _debugLogger.Log(logBuilder => logBuilder.AddMessage($"Founded licence plate: {result}"));
+                return result;
+            }).ToList().AsEnumerable());
         }
     }
 }

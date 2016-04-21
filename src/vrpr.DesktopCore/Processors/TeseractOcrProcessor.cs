@@ -7,7 +7,7 @@ using vrpr.DesktopCore.DebugLog;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class TeseractOcrProcessor : IProcessor<Mat, string>
+    public class TeseractOcrProcessor : IProcessor<Mat, char>
     {
         private readonly IDebugLogger _debugLogger;
 
@@ -16,7 +16,7 @@ namespace vrpr.DesktopCore.Processors
             _debugLogger = debugLogger;
         }
 
-        public Result<string> Process(Mat input)
+        public Result<char> Process(Mat input)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace vrpr.DesktopCore.Processors
                     {
                         using (var page = engine.Process(img))
                         {
-                            var text = page.GetText();
+                            var text = page.GetText()[0];
 
                             _debugLogger.Log(debugLogBuilder => debugLogBuilder.AddMessage("Letter").AddImage(input).AddMessage($"has been recognized as: {text}"));
 
@@ -41,7 +41,7 @@ namespace vrpr.DesktopCore.Processors
             }
             catch (Exception e)
             {
-                return Result.Fail<string>(e.Message);
+                return Result.Fail<char>(e.Message);
             }
         }
     }

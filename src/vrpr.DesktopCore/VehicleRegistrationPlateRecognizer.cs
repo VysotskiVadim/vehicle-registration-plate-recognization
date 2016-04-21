@@ -34,7 +34,7 @@ namespace vrpr.DesktopCore
                     .Do<FindCountourProcessor, Point[][]>()
                     .Do<SelectLetterCountersFilter, Point[][]>(processor => processor.UseImage(binarizedPlate))
                     .Do<CropLettersProcessor, IEnumerable<Mat>>(processor => processor.UseImage(binarizedPlate))
-                    .ForEachItem(ip => ip.Do<TeseractOcrProcessor, string>()))
+                    .ForEachItem(ip => ip.Do<TeseractOcrProcessor, char>()))
                 .Do<StringAgregateProcessor, IEnumerable<string>>()
                 .GetResult();
         }
