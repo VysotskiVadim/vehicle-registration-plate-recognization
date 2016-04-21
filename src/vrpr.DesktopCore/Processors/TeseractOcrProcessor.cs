@@ -25,6 +25,7 @@ namespace vrpr.DesktopCore.Processors
                 using (var engine = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default))
                 {
                     engine.DefaultPageSegMode = PageSegMode.SingleChar;
+                    engine.SetVariable("tessedit_char_whitelist", "0123456789ABEKMHOPCTYXD");
                     using (var img = Pix.LoadTiffFromMemory(buff.ToArray()))
                     {
                         using (var page = engine.Process(img))
