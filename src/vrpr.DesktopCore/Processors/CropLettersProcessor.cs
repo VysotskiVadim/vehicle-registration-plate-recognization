@@ -60,8 +60,12 @@ namespace vrpr.DesktopCore.Processors
                     rectSize.Height = temp;
                 }
 
-                rectSize.Width += (int)(rectSize.Width*0.1);
-                rectSize.Height += (int)(rectSize.Height*0.1);
+                
+                //rectSize.Width += (int)Math.Floor(rectSize.Width*0.2);
+                //rectSize.Height += (int)Math.Floor(rectSize.Height*0.2);
+
+                rectSize.Width += 3;
+                rectSize.Height += 3;
 
                 var rotationMatrix = new Mat();
                 CvInvoke.GetRotationMatrix2D(rectCenter, angle, 1, rotationMatrix);
