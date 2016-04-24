@@ -42,14 +42,17 @@ namespace vrpr.DesktopCore.Processors
                 debugLogBuilder.AddImage(inputWithSelectedLetters);
             });
 
+            var rotationAngle = GetRotationAngle(input);
+
             var imageToCrop = _image;
             List<Mat> result = new List<Mat>();
             foreach (var letterCountor in input)
             {
-                var rect = CvInvoke.MinAreaRect(letterCountor.Select<Point, PointF>(p => p).ToArray());
-                float angle = rect.Angle;
+                var rect = CvInvoke.BoundingRectangle(new VectorOfPoint(letterCountor));
+                float angle = rotationAngle;
                 var rectSize = rect.Size;
-                if (rect.Angle < -45)
+                var rectCenter = new PointF(rect.X + rectSize.Width/2f, rect.Y + rectSize.Height/2f);
+                if (angle < -45)
                 {
                     angle += 90;
                     var temp = rectSize.Width;
@@ -57,21 +60,36 @@ namespace vrpr.DesktopCore.Processors
                     rectSize.Height = temp;
                 }
 
-                rectSize.Width += rectSize.Width*0.1f;
-                rectSize.Height += rectSize.Height*0.1f;
+                rectSize.Width += (int)(rectSize.Width*0.1);
+                rectSize.Height += (int)(rectSize.Height*0.1);
 
                 var rotationMatrix = new Mat();
-                CvInvoke.GetRotationMatrix2D(rect.Center, angle, 1, rotationMatrix);
+                CvInvoke.GetRotationMatrix2D(rectCenter, angle, 1, rotationMatrix);
                 var rotated = new Mat();
                 CvInvoke.WarpAffine(imageToCrop, rotated, rotationMatrix, imageToCrop.Size, Inter.Cubic);
-                // crop the resulting image
                 var cropped = new Mat();
-                CvInvoke.GetRectSubPix(rotated, new Size((int)rectSize.Width, (int)rectSize.Height), rect.Center, cropped);
+                CvInvoke.GetRectSubPix(rotated, new Size((int)rectSize.Width, (int)rectSize.Height), rectCenter, cropped);
                 result.Add(cropped);
                 //_debugLogger.Log(logBuilder => logBuilder.AddMessage("crop letter").AddImage(cropped));
             }
 
             return Result.Ok(result.AsEnumerable());
+        }
+
+        private float GetRotationAngle(Point[][] contours)
+        {
+            var hieghstPointsInTwoBiggestCountors =
+                contours.Select(contour => contour.OrderByDescending(point => point.Y))
+                    .OrderByDescending(contour => contour.First().Y)
+                    .Take(2)
+                    .Select(contour => contour.First())
+                    .ToArray();
+
+            var p1 = hieghstPointsInTwoBiggestCountors[0];
+            var p2 = hieghstPointsInTwoBiggestCountors[1];
+
+            var rotationAngleTangens = Math.Abs((float)p1.Y - p2.Y)/Math.Abs(p1.X - p2.X);
+            return (float)(Math.Atan(rotationAngleTangens) * 180 / Math.PI);
         }
 
         public void UseImage(Mat image)
