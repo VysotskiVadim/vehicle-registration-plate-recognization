@@ -13,9 +13,9 @@ namespace vrpr.DesktopCore.Processors
 
         public Result<Point[][]> Process(Point[][] input)
         {
-            var minLetterHeight = (int)(_image.Height * 0.3);
+            var minLetterHeight = (int)(_image.Height * 0.30);
             var maxLetterHeight = (int)(_image.Height * 0.8);
-            var minLetterWidth = (int)(_image.Width * 0.05);
+            var minLetterWidth = (int)(_image.Width * 0.04);
             var maxLetterWidth = (int)(_image.Width * 0.1);
 
             var letterCountors = input.Where(countor =>
