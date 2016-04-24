@@ -7,7 +7,7 @@ using vrpr.Core.Infrastructure;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class SelectLetterCountersFilter : IProcessor<Point[][], Point[][]>
+    public class SelectLettersContours : IProcessor<Point[][], Point[][]>
     {
         private Mat _image;
 

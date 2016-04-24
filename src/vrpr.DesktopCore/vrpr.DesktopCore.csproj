@@ -111,13 +111,13 @@
     <Compile Include="Processors\BinarizationProcessor.cs" />
     <Compile Include="Processors\CannyProcessor.cs" />
     <Compile Include="Processors\DetectAndCropPlateNumberProcessor.cs" />
-    <Compile Include="Processors\FindCountourProcessor.cs" />
+    <Compile Include="Processors\FindContoursProcessor.cs" />
     <Compile Include="Processors\CropLettersProcessor.cs" />
     <Compile Include="Processors\GaussianBlurProcessor.cs" />
     <Compile Include="Processors\LogCurrentImageProcessor.cs" />
     <Compile Include="Processors\MakeImageGrayProcessor.cs" />
     <Compile Include="Processors\ReadImageFromBytesProcessor.cs" />
-    <Compile Include="Processors\SelectLetterCountersFilter.cs" />
+    <Compile Include="Processors\SelectLettersContours.cs" />
     <Compile Include="Processors\StringAgregateProcessor.cs" />
     <Compile Include="Processors\TeseractOcrProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

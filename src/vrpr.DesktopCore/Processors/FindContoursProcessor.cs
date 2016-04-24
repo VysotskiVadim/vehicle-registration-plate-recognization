@@ -6,7 +6,7 @@ using vrpr.Core.Infrastructure;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class FindCountourProcessor : IProcessor<Mat, Point[][]>
+    public class FindContoursProcessor : IProcessor<Mat, Point[][]>
     {
         public Result<Point[][]> Process(Mat input)
         {
