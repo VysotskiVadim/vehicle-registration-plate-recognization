@@ -27,14 +27,15 @@ namespace vrpr.DesktopCore
                 .Do<DetectAndCropPlateNumberProcessor, IEnumerable<Mat>>()
                 .ForEachItem(p => 
                     p.Do<LogCurrentImageProcessor, Mat>()
+                    .Do<OtsuBinarizationProcessor, Mat>()
                     .SaveCurrentResultTo(r => binarizedPlate = r.Value.Clone())
-                    .Do<BinarizationProcessor, Mat>()
+                    .Do<InvertBinarizedImageProcessor, Mat>()
                     //.Do<GaussianBlurProcessor, Mat>()
                     //.Do<CannyProcessor, Mat>()
                     .Do<FindContoursProcessor, Point[][]>()
                     .Do<SelectLettersContours, Point[][]>(processor => processor.UseImage(binarizedPlate))
                     .Do<CropLettersProcessor, IEnumerable<Mat>>(processor => processor.UseImage(binarizedPlate))
-                    .ForEachItem(ip => ip.Do<TeseractOcrProcessor, char>()))
+                    .ForEachItem(ip => ip.Do<GaussianBlurProcessor, Mat>().Do<TeseractOcrProcessor, char>()))
                 .Do<StringAgregateProcessor, IEnumerable<string>>()
                 .GetResult();
         }

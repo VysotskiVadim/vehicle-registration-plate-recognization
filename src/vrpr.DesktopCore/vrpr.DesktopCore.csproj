@@ -108,7 +108,8 @@
     <Compile Include="DebugLog\IDebugLogBuilder.cs" />
     <Compile Include="DebugLog\IDebugLogger.cs" />
     <Compile Include="IVehicleRegistrationPlateRecognizer.cs" />
-    <Compile Include="Processors\BinarizationProcessor.cs" />
+    <Compile Include="Processors\InvertBinarizedImageProcessor.cs" />
+    <Compile Include="Processors\OtsuBinarizationProcessor.cs" />
     <Compile Include="Processors\CannyProcessor.cs" />
     <Compile Include="Processors\DetectAndCropPlateNumberProcessor.cs" />
     <Compile Include="Processors\FindContoursProcessor.cs" />

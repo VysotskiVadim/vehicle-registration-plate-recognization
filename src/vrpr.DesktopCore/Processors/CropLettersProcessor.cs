@@ -51,7 +51,14 @@ namespace vrpr.DesktopCore.Processors
                 var rect = CvInvoke.BoundingRectangle(new VectorOfPoint(letterCountor));
                 float angle = rotationAngle;
                 var rectSize = rect.Size;
-                var rectCenter = new PointF(rect.X + rectSize.Width/2f, rect.Y + rectSize.Height/2f);
+                var rectCenter = new PointF(rect.X + rectSize.Width / 2f, rect.Y + rectSize.Height / 2f);
+
+                //rectSize.Width += (int)Math.Floor(rectSize.Width*0.2);
+                //rectSize.Height += (int)Math.Floor(rectSize.Height*0.2);
+
+                rectSize.Width += 3;
+                rectSize.Height += 3;
+
                 if (angle < -45)
                 {
                     angle += 90;
@@ -59,13 +66,6 @@ namespace vrpr.DesktopCore.Processors
                     rectSize.Width = rectSize.Height;
                     rectSize.Height = temp;
                 }
-
-                
-                //rectSize.Width += (int)Math.Floor(rectSize.Width*0.2);
-                //rectSize.Height += (int)Math.Floor(rectSize.Height*0.2);
-
-                rectSize.Width += 3;
-                rectSize.Height += 3;
 
                 var rotationMatrix = new Mat();
                 CvInvoke.GetRotationMatrix2D(rectCenter, angle, 1, rotationMatrix);
