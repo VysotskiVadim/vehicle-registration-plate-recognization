@@ -23,7 +23,7 @@ namespace vrpr.DesktopCore.Processors
                 var countorHeight = countor.Max(point => point.Y) - countor.Min(point => point.Y);
                 var countorWidth = countor.Max(point => point.X) - countor.Min(point => point.X);
                 return countorHeight > minLetterHeight && countorHeight < maxLetterHeight && countorWidth > minLetterWidth && countorWidth < maxLetterWidth;
-            }).AsParallel().ToArray();
+            }).OrderBy(points => points.Min(point => point.X)).AsParallel().ToArray();
 
             return Result.Ok(letterCountors);
         }
