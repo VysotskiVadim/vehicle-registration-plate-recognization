@@ -13,13 +13,13 @@ using vrpr.DesktopCore.DebugLog;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class CropLettersProcessor : IProcessor<Point[][], IEnumerable<Mat>>
+    public class CropLettersFilter : IFilter<Point[][], IEnumerable<Mat>>
     {
         private readonly IDebugLogger _debugLogger;
 
         private Mat _image;
 
-        public CropLettersProcessor(IDebugLogger debugLogger)
+        public CropLettersFilter(IDebugLogger debugLogger)
         {
             _debugLogger = debugLogger;
         }
@@ -28,7 +28,7 @@ namespace vrpr.DesktopCore.Processors
         {
             if (_image == null)
             {
-                return Result.Fail<IEnumerable<Mat>>("Image hasn't been set for CropLettersProcessor");
+                return Result.Fail<IEnumerable<Mat>>("Image hasn't been set for CropLettersFilter");
             }
 
             _debugLogger.Log(debugLogBuilder =>

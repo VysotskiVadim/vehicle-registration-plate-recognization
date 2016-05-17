@@ -9,9 +9,9 @@ namespace vrpr.DesktopCore
 {
     public class VehicleRegistrationPlateRecognizer : IVehicleRegistrationPlateRecognizer
     {
-        private readonly Func<Process<byte[]>> _processFactory;
+        private readonly Func<Pipe<byte[]>> _processFactory;
 
-        public VehicleRegistrationPlateRecognizer(Func<Process<byte[]>> processFactory)
+        public VehicleRegistrationPlateRecognizer(Func<Pipe<byte[]>> processFactory)
         {
             _processFactory = processFactory;
         }
@@ -22,21 +22,21 @@ namespace vrpr.DesktopCore
 
             return _processFactory.Invoke()
                 .Use(input)
-                .Do<ReadImageFromBytesProcessor, Mat>()
-                .Do<MakeImageGrayProcessor, Mat>()
-                .Do<DetectAndCropPlateNumberProcessor, IEnumerable<Mat>>()
+                .Do<ReadImageFromBytesFilter, Mat>()
+                .Do<MakeImageGrayFilter, Mat>()
+                .Do<DetectAndCropPlateNumberFilter, IEnumerable<Mat>>()
                 .ForEachItem(p => 
-                    p.Do<LogCurrentImageProcessor, Mat>()
-                    .Do<OtsuBinarizationProcessor, Mat>()
+                    p.Do<LogCurrentImageFilter, Mat>()
+                    .Do<OtsuBinarizationFilter, Mat>()
                     .SaveCurrentResultTo(r => binarizedPlate = r.Value.Clone())
-                    .Do<InvertBinarizedImageProcessor, Mat>()
-                    //.Do<GaussianBlurProcessor, Mat>()
-                    //.Do<CannyProcessor, Mat>()
-                    .Do<FindContoursProcessor, Point[][]>()
+                    .Do<InvertBinarizedImageFilter, Mat>()
+                    //.Do<GaussianBlurFilter, Mat>()
+                    //.Do<CannyFilter, Mat>()
+                    .Do<FindContoursFilter, Point[][]>()
                     .Do<SelectLettersContours, Point[][]>(processor => processor.UseImage(binarizedPlate))
-                    .Do<CropLettersProcessor, IEnumerable<Mat>>(processor => processor.UseImage(binarizedPlate))
-                    .ForEachItem(ip => ip.Do<GaussianBlurProcessor, Mat>().Do<TeseractOcrProcessor, char>()))
-                .Do<StringAgregateProcessor, IEnumerable<string>>()
+                    .Do<CropLettersFilter, IEnumerable<Mat>>(processor => processor.UseImage(binarizedPlate))
+                    .ForEachItem(ip => ip.Do<GaussianBlurFilter, Mat>().Do<TeseractOcrFilter, char>()))
+                .Do<StringAgregateFilter, IEnumerable<string>>()
                 .GetResult();
         }
     }

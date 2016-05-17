@@ -9,11 +9,11 @@ using vrpr.DesktopCore.DebugLog;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class DetectAndCropPlateNumberProcessor : IProcessor<Mat, IEnumerable<Mat>>
+    public class DetectAndCropPlateNumberFilter : IFilter<Mat, IEnumerable<Mat>>
     {
         private readonly IDebugLogger _debugLogger;
 
-        public DetectAndCropPlateNumberProcessor(IDebugLogger debugLogger)
+        public DetectAndCropPlateNumberFilter(IDebugLogger debugLogger)
         {
             _debugLogger = debugLogger;
         }

@@ -41,11 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper.cs" />
-    <Compile Include="Infrastructure\IProcessor.cs" />
+    <Compile Include="Infrastructure\IFilter.cs" />
     <Compile Include="Infrastructure\Maybe.cs" />
-    <Compile Include="Infrastructure\Process.cs" />
+    <Compile Include="Infrastructure\Pipe.cs" />
     <Compile Include="Infrastructure\Result.cs" />
-    <Compile Include="IProcessorFactory.cs" />
+    <Compile Include="IPipeFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

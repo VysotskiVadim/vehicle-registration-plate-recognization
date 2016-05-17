@@ -4,7 +4,7 @@
     {
     }
 
-    public interface IProcessor<in TIn, TOut> : IProcessor
+    public interface IFilter<in TIn, TOut> : IProcessor
     {
         Result<TOut> Process(TIn input);
     }

@@ -5,11 +5,11 @@ using vrpr.DesktopCore.DebugLog;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class ReadImageFromBytesProcessor : IProcessor<byte[], Mat>
+    public class ReadImageFromBytesFilter : IFilter<byte[], Mat>
     {
         private readonly IDebugLogger _debugLogger;
 
-        public ReadImageFromBytesProcessor(IDebugLogger debugLogger)
+        public ReadImageFromBytesFilter(IDebugLogger debugLogger)
         {
             _debugLogger = debugLogger;
         }

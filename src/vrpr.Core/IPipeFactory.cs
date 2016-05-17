@@ -2,7 +2,7 @@
 
 namespace vrpr.Core
 {
-    public interface IProcessorFactory
+    public interface IPipeFactory
     {
         TProcessor GetProcessor<TProcessor>() where TProcessor : IProcessor;
     }

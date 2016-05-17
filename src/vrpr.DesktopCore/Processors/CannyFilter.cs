@@ -4,18 +4,19 @@ using vrpr.DesktopCore.DebugLog;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class LogCurrentImageProcessor : IProcessor<Mat, Mat>
+    public class CannyFilter : IFilter<Mat, Mat>
     {
         private readonly IDebugLogger _debugLogger;
 
-        public LogCurrentImageProcessor(IDebugLogger debugLogger)
+        public CannyFilter(IDebugLogger debugLogger)
         {
             _debugLogger = debugLogger;
         }
 
         public Result<Mat> Process(Mat input)
         {
-            _debugLogger.Log(debugBuilder => debugBuilder.AddMessage("Current image is:").AddImage(input));
+            CvInvoke.Canny(input, input, 100, 300, 3);
+            _debugLogger.Log(logBuilder => logBuilder.AddMessage("Canny result").AddImage(input));
             return Result<Mat>.Ok(input);
         }
     }

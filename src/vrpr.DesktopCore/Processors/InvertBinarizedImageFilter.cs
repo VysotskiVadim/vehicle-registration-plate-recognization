@@ -4,7 +4,7 @@ using vrpr.Core.Infrastructure;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class InvertBinarizedImageProcessor : IProcessor<Mat, Mat>
+    public class InvertBinarizedImageFilter : IFilter<Mat, Mat>
     {
         public Result<Mat> Process(Mat input)
         {

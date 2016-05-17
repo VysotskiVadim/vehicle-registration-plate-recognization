@@ -5,11 +5,11 @@ using vrpr.DesktopCore.DebugLog;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class OtsuBinarizationProcessor : IProcessor<Mat, Mat>
+    public class OtsuBinarizationFilter : IFilter<Mat, Mat>
     {
         private readonly IDebugLogger _debugLogger;
 
-        public OtsuBinarizationProcessor(IDebugLogger debugLogger)
+        public OtsuBinarizationFilter(IDebugLogger debugLogger)
         {
             _debugLogger = debugLogger;
         }

@@ -8,11 +8,11 @@ using vrpr.DesktopCore.DebugLog;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class StringAgregateProcessor : IProcessor<IEnumerable<IEnumerable<char>>, IEnumerable<string>>
+    public class StringAgregateFilter : IFilter<IEnumerable<IEnumerable<char>>, IEnumerable<string>>
     {
         private readonly IDebugLogger _debugLogger;
 
-        public StringAgregateProcessor(IDebugLogger debugLogger)
+        public StringAgregateFilter(IDebugLogger debugLogger)
         {
             _debugLogger = debugLogger;
         }

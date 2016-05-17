@@ -8,7 +8,7 @@ using vrpr.Core.Infrastructure;
 
 namespace vrpr.DesktopCore
 {
-    public interface IVehicleRegistrationPlateRecognizer : IProcessor<byte[], IEnumerable<string>>
+    public interface IVehicleRegistrationPlateRecognizer : IFilter<byte[], IEnumerable<string>>
     {
     }
 }

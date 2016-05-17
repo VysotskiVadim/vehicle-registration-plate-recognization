@@ -4,7 +4,7 @@ using vrpr.Core.Infrastructure;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class MakeImageGrayProcessor : IProcessor<Mat, Mat>
+    public class MakeImageGrayFilter : IFilter<Mat, Mat>
     {
         public Result<Mat> Process(Mat input)
         {

@@ -7,11 +7,11 @@ using vrpr.DesktopCore.DebugLog;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class TeseractOcrProcessor : IProcessor<Mat, char>
+    public class TeseractOcrFilter : IFilter<Mat, char>
     {
         private readonly IDebugLogger _debugLogger;
 
-        public TeseractOcrProcessor(IDebugLogger debugLogger)
+        public TeseractOcrFilter(IDebugLogger debugLogger)
         {
             _debugLogger = debugLogger;
         }

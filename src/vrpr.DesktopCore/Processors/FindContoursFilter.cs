@@ -9,11 +9,11 @@ using vrpr.DesktopCore.DebugLog;
 
 namespace vrpr.DesktopCore.Processors
 {
-    public class FindContoursProcessor : IProcessor<Mat, Point[][]>
+    public class FindContoursFilter : IFilter<Mat, Point[][]>
     {
         private readonly IDebugLogger _debugLogger;
 
-        public FindContoursProcessor(IDebugLogger debugLogger)
+        public FindContoursFilter(IDebugLogger debugLogger)
         {
             _debugLogger = debugLogger;
         }

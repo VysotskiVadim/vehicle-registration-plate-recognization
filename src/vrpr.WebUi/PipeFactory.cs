@@ -10,11 +10,11 @@ using vrpr.Core.Infrastructure;
 
 namespace vrpr.WebUi
 {
-    public class ProcessorFactory : IProcessorFactory
+    public class PipeFactory : IPipeFactory
     {
         private readonly IUnityContainer _unityContainer;
 
-        public ProcessorFactory(IUnityContainer unityContainer)
+        public PipeFactory(IUnityContainer unityContainer)
         {
             _unityContainer = unityContainer;
         }

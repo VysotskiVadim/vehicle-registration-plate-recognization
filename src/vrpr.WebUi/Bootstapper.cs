@@ -26,7 +26,7 @@ namespace vrpr.WebUi
         {
             // Perform registation that should have an application lifetime
             existingContainer.RegisterInstance<IUnityContainer>(existingContainer);
-            existingContainer.RegisterType<IProcessorFactory, ProcessorFactory>();
+            existingContainer.RegisterType<IPipeFactory, PipeFactory>();
             existingContainer.RegisterType<IVehicleRegistrationPlateRecognizer, VehicleRegistrationPlateRecognizer>();
         }
 
