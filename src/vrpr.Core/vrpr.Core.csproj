@@ -46,6 +46,7 @@
     <Compile Include="Infrastructure\Pipe.cs" />
     <Compile Include="Infrastructure\Result.cs" />
     <Compile Include="IPipeFactory.cs" />
+    <Compile Include="IRecongnitionResultHander.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
